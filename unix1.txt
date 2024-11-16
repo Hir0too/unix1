@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Fonction qui demande à l'utilisateur de deviner le nombre de fichiers
+guessing_game() {
+  local correct_answer=$(ls -1 | wc -l)  # Compte le nombre de fichiers dans le répertoire actuel
+  local guess=0
+
+  while [[ $guess -ne $correct_answer ]]; do
+    echo "Combien de fichiers se trouvent dans ce répertoire ?"
+    read guess
+
+    if [[ $guess -lt $correct_answer ]]; then
+      echo "Trop bas, essayez encore !"
+    elif [[ $guess -gt $correct_answer ]]; then
+      echo "Trop haut, essayez encore !"
+    else
+      echo "Félicitations, vous avez deviné correctement !"
+    fi
+  done
+}
+
+# Appeler la fonction pour commencer le jeu
+guessing_game
+# Makefile
+
+# Définir le nom du fichier à créer
+README=README.md
+
+# Règle par défaut
+all: $(README)
+
+# Règle pour générer README.md
+$(README):
+	@echo "# Projet Guessing Game" > $(README)
+	@echo "Date et heure de l'exécution: $(shell date)" >> $(README)
+	@echo "Nombre de lignes de code dans guessinggame.sh: $(shell wc -l < guessinggame.sh)" >> $(README)
+	@echo "Instructions pour jouer au jeu sont dans guessinggame.sh" >> $(README)
+git init
+git add .
+git commit -m "Premier commit pour guessing game"
+git remote add origin https://github.com/username/nom_du_depot.git
+git push -u origin master
